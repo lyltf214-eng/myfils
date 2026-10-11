@@ -1,0 +1,1 @@
+document.getElementById("demo").innerHTML = "Added by <b>JavaScript</b>";

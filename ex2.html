@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>مثال 2 - alert</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+*{font-family:'Cairo';box-sizing:border-box}
+body{margin:0;background:#f8f7ff}
+.header{background:white;border-bottom:1px solid #f5f3ff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.header a{color:#7c3aed;text-decoration:none;background:#f5f3ff;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600}
+.container{max-width:700px;margin:30px auto;padding:0 20px}
+.card{background:white;border:1px solid #f5f3ff;border-radius:16px;padding:22px;margin-bottom:14px;box-shadow:0 2px 10px rgba(124,58,237,0.04)}
+.code{background:#fcfbff;border:1px solid #ede9fe;border-radius:10px;padding:14px;direction:ltr;text-align:left;font-family:monospace;color:#4c1d95;font-size:14px;line-height:1.6}
+.btn{width:100%;padding:13px;background:#6d28d9;color:white;border:none;border-radius:12px;cursor:pointer;font-weight:700;font-size:14px;margin-top:16px;transition:.2s}
+.btn:hover{background:#5b21b6}
+.result{border:1.5px dashed #c4b5fd;border-radius:12px;padding:18px;margin-top:16px;background:#fdfcff;text-align:center;min-height:54px;display:flex;align-items:center;justify-content:center;color:#8b5cf6;font-size:13px}
+.result.active{background:#f5f3ff;border-style:solid;color:#5b21b6;font-weight:600;font-size:15px}
+h3{margin:0;color:#5b21b6}
+.sub{color:#8b5cf6;font-size:13px;margin:6px 0 0}
+</style>
+</head>
+<body>
+<div class="header"><a href="examples.html">→ رجوع</a><span style="font-size:13px;color:#7c3aed;font-weight:600">مثال 2 / 10</span></div>
+<div class="container">
+<div class="card">
+<h3>2- الأمر alert</h3>
+<p class="sub">من موقع هرمش - يظهر نافذة منبثقة</p>
+
+<div class="code" style="margin-top:14px">
+&lt;script&gt;<br>
+&nbsp;&nbsp;alert('Hello World!');<br>
+&lt;/script&gt;
+</div>
+
+<button class="btn" onclick="runCode()">▶ اضغط هنا لظهور النتيجة</button>
+
+<div class="result" id="demo">النتيجة بتظهر هنا</div>
+</div>
+
+<div class="card" style="background:#f5f3ff;border:none">
+<b style="color:#6d28d9;font-size:13px">💡 الشرح:</b>
+<p style="margin:6px 0 0;color:#6b7280;font-size:13px;line-height:1.8">
+alert() يعرض نافذة تنبيه للمستخدم فيها النص اللي تختاره.
+</p>
+</div>
+</div>
+
+<script>
+function runCode(){
+  let r = document.getElementById('demo');
+  r.innerText = 'Hello World!';
+  r.classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>الأمثلة - مشروع JS</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+*{font-family:'Cairo';box-sizing:border-box}
+body{margin:0;background:#f8f7ff}
+.header{background:white;border-bottom:1px solid #f5f3ff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.btn-main{text-decoration:none;background:#6d28d9;color:white;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;transition:.2s}
+.btn-main:hover{background:#5b21b6}
+.container{max-width:600px;margin:40px auto;padding:0 20px}
+.card{background:white;border-radius:20px;padding:30px;box-shadow:0 4px 20px rgba(124,58,237,0.05);text-align:center}
+.title{color:#5b21b6;font-size:22px;font-weight:700;margin:0}
+.sub{color:#8b5cf6;font-size:14px;margin-top:8px}
+.list{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+.list a{text-decoration:none;background:#f5f3ff;color:#6d28d9;padding:16px;border-radius:14px;font-weight:600;font-size:15px;transition:.2s;border:1px solid #ede9fe}
+.list a:hover{background:#ede9fe;transform:translateY(-1px)}
+.footer{margin-top:20px}
+.footer a{text-decoration:none;color:#7c3aed;background:white;border:1px solid #ede9fe;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;display:inline-block}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div style="display:flex;gap:8px;align-items:center">
+    <span style="color:#5b21b6;font-weight:700;">📚 مشروع JS</span>
+    <a href="index.html" class="btn-main">🏠 الرئيسية</a>
+  </div>
+  <span id="userName" style="background:#f5f3ff;color:#7c3aed;padding:6px 14px;border-radius:20px;font-size:13px;">...</span>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h2 class="title" id="welcomeName">👋 أهلاً</h2>
+    <p class="sub">اختر مثال من القائمة</p>
+    
+    <div class="list">
+      <a href="ex1.html">1 - أول كود ✨</a>
+      <a href="ex2.html">2 - الأمر alert() 🔔</a>
+      <a href="ex3.html">3 - innerHTML 🎯</a>
+       <a href="ex4.html">4 - تغيير اللون 🎨</a>
+       <a href="ex5.html">5 - JavaScript في الـ Head 📌</a>
+         <a href="ex6.html">6 - JS في الـ Body ✅</a>
+         <a href="ex7.html">7 - ملف خارجي script.js 📁</a>
+         <a href="ex8.html">8 - المتغيرات والمساحة 📐</a>
+          <a href="ex10.html">10 - أنواع البيانات 👤</a>
+    </div>
+
+    <div class="footer">
+      <a href="index.html">→ رجوع لصفحة تسجيل البيانات</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// هذا الكود يجيب الاسم اللي سجلتيه في صفحة البيانات
+let savedName = localStorage.getItem('username') || localStorage.getItem('name') || localStorage.getItem('userName') || localStorage.getItem('fullName') || '';
+
+if(savedName){
+  document.getElementById('userName').innerText = savedName;
+  document.getElementById('welcomeName').innerText = '👋 أهلاً ' + savedName;
+} else {
+  document.getElementById('userName').innerText = 'زائر';
+  document.getElementById('welcomeName').innerText = '👋 أهلاً';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>الصفحة الرئيسية</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap');
+body{font-family:'Cairo'; background:#f8f7ff; display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0}
+.box{background:white; padding:32px; border-radius:20px; width:340px; box-shadow:0 4px 20px rgba(124,58,237,0.07); border:1px solid #f5f3ff}
+h3{color:#5b21b6; text-align:center; margin:0 0 10px; font-size:20px}
+label{font-size:13px; color:#7c3aed; font-weight:600; display:block; margin:18px 0 7px}
+input{width:100%; padding:12px 14px; border:1.5px solid #ede9fe; border-radius:10px; box-sizing:border-box; outline:none; background:#fcfbff; transition:0.2s}
+input:focus{border-color:#a78bfa; background:white}
+input::placeholder{color:#a5b4fc; font-size:13px}
+button.main{width:100%; padding:12px; background:#7c3aed; color:white; border:none; border-radius:10px; cursor:pointer; margin-top:22px; font-family:'Cairo'; font-weight:600; transition:0.2s}
+button.main:hover{background:#6d28d9}
+
+/* التنبيه الجديد - لون هادي ومناسب */
+#customAlert{
+ position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-80px);
+ background:white; color:#4c1d95; padding:12px 18px; border-radius:12px;
+ box-shadow:0 8px 24px rgba(91,33,182,0.12); border:1px solid #ede9fe;
+ display:flex; align-items:center; gap:10px; z-index:1000; opacity:0; transition:0.4s;
+ font-size:13px; font-weight:600
+}
+#customAlert.show{transform:translateX(-50%) translateY(0); opacity:1}
+#customAlert.error{border-color:#e9d5ff; background:#faf5ff; color:#6b21a8}
+#customAlert.success{border-color:#d1fae5; background:#ecfdf5; color:#065f46}
+#customAlert button{background:#f5f3ff; color:#7c3aed; border:none; padding:5px 14px; border-radius:20px; cursor:pointer; font-family:'Cairo'; font-weight:600; font-size:12px}
+#customAlert.success button{background:#d1fae5; color:#065f46}
+
+/* خطأ الحقول - بنفسجي فاتح مش أحمر */
+.input-error{border-color:#c4b5fd !important; background:#f5f3ff !important;}
+.dot{width:8px; height:8px; border-radius:50%; display:inline-block}
+.dot-err{background:#a78bfa} .dot-ok{background:#34d399}
+</style>
+</head>
+<body>
+
+<div id="customAlert">
+  <span class="dot" id="dot"></span>
+  <span id="alertText"></span>
+  <button onclick="hideAlert()">حسناً</button>
+</div>
+
+<div class="box">
+<h3>مرحباً بك ✨</h3>
+<label>✦ الاسم</label>
+<input id="name" placeholder="مثال: دانيه">
+<label>✦ العمر</label>
+<input id="age" type="number" placeholder="مثال: 20">
+<label>✦ العمل / التخصص</label>
+<input id="job" placeholder="مثال: طالبة برمجة">
+<button class="main" onclick="save()">دخول للمشروع ←</button>
+</div>
+
+<script>
+function showAlert(msg, type='error'){
+ let a=document.getElementById('customAlert');
+ let dot=document.getElementById('dot');
+ document.getElementById('alertText').innerText=msg;
+ a.className=type; a.classList.add('show');
+ dot.className= type=='error' ? 'dot dot-err' : 'dot dot-ok';
+ setTimeout(hideAlert,3000);
+}
+function hideAlert(){document.getElementById('customAlert').classList.remove('show');}
+function save(){
+ let nEl=document.getElementById('name'), aEl=document.getElementById('age'), jEl=document.getElementById('job');
+ let n=nEl.value.trim(), a=aEl.value.trim(), j=jEl.value.trim();
+ [nEl,aEl,jEl].forEach(el=>el.classList.remove('input-error'));
+ if(!n||!a||!j){
+   if(!n) nEl.classList.add('input-error');
+   if(!a) aEl.classList.add('input-error');
+   if(!j) jEl.classList.add('input-error');
+   showAlert('أكملي البيانات أولاً', 'error'); return;
+ }
+ localStorage.setItem('userName',n); localStorage.setItem('userAge',a); localStorage.setItem('userJob',j);
+ showAlert('تم الحفظ، أهلاً '+n, 'success');
+ setTimeout(()=>{ window.location.href='examples.html'; },900);
+}
+</script>
+</body>
+</html>
