@@ -2,70 +2,221 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>الأمثلة - مشروع JS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة أمثلة الأكواد</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
-*{font-family:'Cairo';box-sizing:border-box}
-body{margin:0;background:#f8f7ff}
-.header{background:white;border-bottom:1px solid #f5f3ff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
-.btn-main{text-decoration:none;background:#6d28d9;color:white;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;transition:.2s}
-.btn-main:hover{background:#5b21b6}
-.container{max-width:600px;margin:40px auto;padding:0 20px}
-.card{background:white;border-radius:20px;padding:30px;box-shadow:0 4px 20px rgba(124,58,237,0.05);text-align:center}
-.title{color:#5b21b6;font-size:22px;font-weight:700;margin:0}
-.sub{color:#8b5cf6;font-size:14px;margin-top:8px}
-.list{margin-top:22px;display:flex;flex-direction:column;gap:12px}
-.list a{text-decoration:none;background:#f5f3ff;color:#6d28d9;padding:16px;border-radius:14px;font-weight:600;font-size:15px;transition:.2s;border:1px solid #ede9fe}
-.list a:hover{background:#ede9fe;transform:translateY(-1px)}
-.footer{margin-top:20px}
-.footer a{text-decoration:none;color:#7c3aed;background:white;border:1px solid #ede9fe;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;display:inline-block}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif}
+body{background:#f6fbfb;color:#2f425e;min-height:100vh}
+
+/* ===== هيدر جديد مدلع مثل الصورة ===== */
+.top-header{
+  height:88px;
+  background: linear-gradient(180deg, #e8f2ef 0%, #f6fbfb 100%);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 22px;
+  border-bottom:1px solid #d8e7e4;
+  position:relative;
+  overflow:hidden;
+}
+.top-header::before{
+  content:"";position:absolute;right:18%;top:-30px;width:320px;height:180px;
+  background: radial-gradient(ellipse at center, #d3e6e1 0%, transparent 70%);
+  opacity:0.9; pointer-events:none;
+}
+.top-header::after{
+  content:"";position:absolute;left:-10px;top:-20px;width:200px;height:130px;
+  background: radial-gradient(ellipse at center, #d9ebe7 0%, transparent 70%);
+  opacity:0.7; pointer-events:none;
+}
+.platform-badge{
+  background:#ffffff;
+  border:1px solid #d8e8e3;
+  padding:8px 14px;border-radius:12px;
+  display:flex;align-items:center;gap:8px;
+  font-weight:700;font-size:13px;color:#2f5d5d;
+  box-shadow:0 2px 10px rgba(0,0,0,0.04);
+  text-decoration:none;
+  position:relative;z-index:2;
+}
+.platform-badge.icon{
+  width:28px;height:28px;background:linear-gradient(135deg,#3d7a7a,#2f5e5e);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:12px;font-weight:800;
+}
+.header-center{
+  position:absolute;left:50%;transform:translateX(-50%);
+  text-align:center;z-index:2;
+}
+.header-center h1{
+  font-size:26px;font-weight:800;color:#233e4f;
+  display:flex;align-items:center;gap:10px;justify-content:center;
+}
+.js-badge{
+  background:#f7df1e;color:#000;padding:2px 8px;border-radius:6px;
+  font-size:14px;font-weight:900;border:1px solid #e6c700;
+}
+.header-center p{font-size:13px;color:#7a9a98;margin-top:3px;letter-spacing:0.5px}
+.header-right{position:relative;z-index:2;display:flex;align-items:center;gap:10px}
+.btn-home{
+  background:#fff;border:1px solid #d8e8e3;padding:7px 14px;border-radius:20px;
+  font-size:12px;font-weight:700;color:#2f5d5d;text-decoration:none;
+  box-shadow:0 2px 6px rgba(0,0,0,0.04);
+}
+
+.main{display:flex;min-height:calc(100vh - 88px)}
+.sidebar{width:320px;background:#f0f7f7;border-left:1px solid #dde8e6;padding:10px;overflow-y:auto;max-height:calc(100vh - 88px)}
+.side-item{padding:7px 12px;border-radius:8px;cursor:pointer;font-size:11.5px;margin-bottom:2px;color:#4a6a6a}
+.side-item.active{background:#dff0ec;font-weight:700;border-right:3px solid #4a8a8a;color:#1a4a4a}
+.side-title{font-size:12px;color:#2f6e6e;margin:14px 8px 6px;font-weight:700;background:#fff;padding:5px 8px;border-radius:6px}
+.content{flex:1;padding:14px;display:flex;flex-direction:column;gap:12px}
+.editor-wrap{display:grid;grid-template-columns:1.2fr 0.8fr;gap:12px;flex:1}
+.panel{background:#fff;border:1px solid #e2e8e2;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-height:380px}
+.panel-head{height:44px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;background:#fafcfc;border-bottom:1px solid #eef2f2}
+.btn{border:1px solid #d6dde6;background:#fff;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer}
+.btn-primary{background:#3a8a8a;color:#fff;border-color:#3a8a8a;font-weight:700}
+.code-area{flex:1;background:#1e293b;color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:12px;padding:12px;border:none;outline:none;resize:none;direction:ltr;text-align:left;white-space:pre;overflow:auto}
+.result{background:#f0f6f3;flex:1;padding:12px;font-size:13px;line-height:2;overflow:auto}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div style="display:flex;gap:8px;align-items:center">
-    <span style="color:#5b21b6;font-weight:700;">📚 مشروع JS</span>
-    <a href="index.html" class="btn-main">🏠 الرئيسية</a>
+<div class="top-header">
+  <a href="index.html" class="platform-badge">
+    <div class="icon">&lt;/&gt;</div>
+    منصة أمثلة الأكواد
+  </a>
+  <div class="header-center">
+    <h1>أمثلة لغة JavaScript <span class="js-badge">JS</span></h1>
+    <p>تعلم • طبق • شاهد النتيجة</p>
   </div>
-  <span id="userName" style="background:#f5f3ff;color:#7c3aed;padding:6px 14px;border-radius:20px;font-size:13px;">...</span>
-</div>
-
-<div class="container">
-  <div class="card">
-    <h2 class="title" id="welcomeName">👋 أهلاً</h2>
-    <p class="sub">اختر مثال من القائمة</p>
-    
-    <div class="list">
-      <a href="ex1.html">1 - أول كود ✨</a>
-      <a href="ex2.html">2 - الأمر alert() 🔔</a>
-      <a href="ex3.html">3 - innerHTML 🎯</a>
-       <a href="ex4.html">4 - تغيير اللون 🎨</a>
-       <a href="ex5.html">5 - JavaScript في الـ Head 📌</a>
-         <a href="ex6.html">6 - JS في الـ Body ✅</a>
-         <a href="ex7.html">7 - ملف خارجي script.js 📁</a>
-         <a href="ex8.html">8 - المتغيرات والمساحة 📐</a>
-          <a href="ex10.html">10 - أنواع البيانات 👤</a>
-    </div>
-
-    <div class="footer">
-      <a href="index.html">→ رجوع لصفحة تسجيل البيانات</a>
-    </div>
+  <div class="header-right">
+    <a href="index.html" class="btn-home">← رجوع للرئيسية</a>
+    <div style="font-size:22px;opacity:0.6">🌿</div>
   </div>
 </div>
 
+<div class="main"><div class="sidebar" id="sidebar"></div>
+<div class="content"><h2 id="exTitle"></h2><p id="exDesc" style="font-size:12px;color:#6a8a8a"></p>
+<div class="editor-wrap">
+<div class="panel"><div class="panel-head"><h3>الكود</h3><div><button class="btn" onclick="copyCode()">نسخ</button><button class="btn btn-primary" onclick="runCode()">▶ تشغيل</button></div></div><textarea class="code-area" id="code"></textarea></div>
+<div class="panel"><div class="panel-head"><h3>النتيجة</h3><button class="btn" onclick="clearResult()">مسح</button></div><div class="result" id="result"></div></div>
+</div>
+<div style="background:#eef6f1;border:1px solid #dbe8de;border-radius:10px;padding:10px"><ul id="explainList" style="font-size:12px;padding-right:16px;line-height:1.9"></ul></div></div></div>
 <script>
-// هذا الكود يجيب الاسم اللي سجلتيه في صفحة البيانات
-let savedName = localStorage.getItem('username') || localStorage.getItem('name') || localStorage.getItem('userName') || localStorage.getItem('fullName') || '';
-
-if(savedName){
-  document.getElementById('userName').innerText = savedName;
-  document.getElementById('welcomeName').innerText = '👋 أهلاً ' + savedName;
-} else {
-  document.getElementById('userName').innerText = 'زائر';
-  document.getElementById('welcomeName').innerText = '👋 أهلاً';
+const categories={
+ex1:{title:"المتغيرات م1: تعريف تلقائي",desc:"بدون var",code:`website = 'Harmash.com';\nconsole.log(website);`,explain:["طريقة قديمة"]},
+ex2:{title:"المتغيرات م2: var مباشر",desc:"كل متغير بسطر",code:`var name = 'Mhamad';\nvar age = 25;\nvar isWorking = true;\nconsole.log(name);\nconsole.log(age);\nconsole.log(isWorking);`,explain:["var قديم"]},
+ex3:{title:"المتغيرات م3: var سطر واحد",desc:"بفاصلة",code:`var name = 'Mhamad', age = 25, isWorking = true;\nconsole.log(name, age, isWorking);`,explain:["اختصار"]},
+ex4:{title:"المتغيرات م4: var منظم",desc:"عمودي",code:`var name = 'Mhamad',\n age = 25,\n isWorking = true;\nconsole.log(name, age, isWorking);`,explain:["منظم"]},
+ex5:{title:"المتغيرات م5: var فارغ ثم قيمة",desc:"تعريف ثم قيمة",code:`var name;\nvar age;\nvar isWorking;\nname = 'Mhamad';\nage = 25;\nisWorking = true;\nconsole.log(name, age, isWorking);`,explain:["فارغ ثم قيمة"]},
+ex6:{title:"المتغيرات م6: let مباشر",desc:"حديث",code:`let name = 'Mhamad';\nlet age = 25;\nlet isWorking = true;\nconsole.log(name, age, isWorking);`,explain:["let حديث"]},
+ex7:{title:"المتغيرات م7: let سطر واحد",desc:"سطر واحد",code:`let name = 'Mhamad', age = 25, isWorking = true;\nconsole.log(name, age, isWorking);`,explain:["سطر واحد"]},
+ex8:{title:"المتغيرات م8: let مع تعليقات",desc:"من الكتاب",code:`// هنا قمنا بتعريف المتغيرات و إعطاءها قيم\nlet name = 'Mhamad';\nlet age = 25;\nlet isWorking = true;\nconsole.log(name);\nconsole.log(age);\nconsole.log(isWorking);`,explain:["مع تعليقات"]},
+ex9:{title:"المتغيرات م9: let منظم",desc:"منظم",code:`let name = 'Mhamad',\n age = 25,\n isWorking = true;\nconsole.log(name, age, isWorking);`,explain:["منظم"]},
+ex10:{title:"المتغيرات م10: const مباشر",desc:"ثابت",code:`const name = 'Mhamad';\nconst age = 25;\nconst isWorking = true;\nconsole.log(name, age, isWorking);`,explain:["const ثابت"]},
+ex11:{title:"المتغيرات م11: const سطر واحد",desc:"سطر واحد",code:`const name = 'Mhamad', age = 25, isWorking = true;\nconsole.log(name, age, isWorking);`,explain:["سطر واحد"]},
+ex12:{title:"المتغيرات م12: const منظم",desc:"منظم",code:`const name = 'Mhamad',\n age = 25,\n isWorking = true;\nconsole.log(name, age, isWorking);`,explain:["منظم"]},
+ex13:{title:"المتغيرات م13: بدون قيمة",desc:"undefined",code:`var website;\nconsole.log(website);`,explain:["undefined"]},
+ex14:{title:"المتغيرات م14: getElementById",desc:"عرض في الصفحة",code:`var website = 'Harmash.com';\nconsole.log(website);`,explain:["في عنصر HTML"]},
+type1:{title:"البيانات م1: أعداد صحيحة",desc:"Integer",code:`let x = 3;\nlet y = 5;\nconsole.log('x = ' + x);\nconsole.log('y = ' + y);`,explain:["Number صحيح"]},
+type2:{title:"البيانات م2: أعداد عشرية",desc:"Float",code:`let x = 10.5;\nlet y = 2.44;\nconsole.log('x = ' + x);\nconsole.log('y = ' + y);`,explain:["Number عشري"]},
+type3:{title:"البيانات م3: أعداد أسية",desc:"Exponential",code:`let x = 1234e5;\nlet y = 1234e-5;\nconsole.log('x = ' + x);\nconsole.log('y = ' + y);`,explain:["e5 = *10^5"]},
+type4:{title:"البيانات م4: ناتج قسمة",desc:"Division",code:`let x = 5;\nlet y = 2;\nlet z = x / y;\nconsole.log('z = ' + z);`,explain:["ناتج قسمة"]},
+type5:{title:"البيانات م5: نصوص",desc:"String",code:`let web1 = 'Harmash.com';\nlet web2 = 'FreeSkillAcademy.com';\nconsole.log('web1 = ' + web1);\nconsole.log('web2 = ' + web2);`,explain:["String"]},
+type6:{title:"البيانات م6: دمج النصوص",desc:"Concatenation",code:`let firstName = 'Mhamad';\nlet lastName = 'Harmush';\nlet fullName = firstName + ' ' + lastName;\nconsole.log('fullName = ' + fullName);`,explain:["+ تدمج"]},
+type7:{title:"البيانات م7: Boolean",desc:"Boolean",code:`let isWorking = true;\nlet isMarried = false;\nconsole.log('isWorking = ' + isWorking);\nconsole.log('isMarried = ' + isMarried);`,explain:["true/false"]},
+type8:{title:"البيانات م8: كائن",desc:"Object",code:`let person = { id: 1024, username: 'mhamad', isWorking: true };\nconsole.log('id = ' + person.id);\nconsole.log('username = ' + person.username);`,explain:["Object"]},
+type9:{title:"البيانات م9: مصفوفة",desc:"Array",code:`let fruits = ['Apple', 'Banana', 'Blueberry'];\nconsole.log('fruits[0] = ' + fruits[0]);\nconsole.log('fruits[1] = ' + fruits[1]);\nconsole.log('fruits[2] = ' + fruits[2]);`,explain:["Array"]},
+type10:{title:"البيانات م10: دالة",desc:"Function",code:`function demo() { console.log('Hello World!'); }\ndemo();`,explain:["Function"]},
+type11:{title:"البيانات م11: undefined",desc:"undefined",code:`var website;\nconsole.log('website = ' + website);`,explain:["undefined"]},
+type12:{title:"البيانات م12: null",desc:"Null",code:`var cars = null;\nconsole.log('cars = ' + cars);\ncars = ['BMW', 'Toyota', 'Ferrari'];\nconsole.log('cars = ' + cars);`,explain:["null"]},
+type13:{title:"البيانات م13: typeof",desc:"typeof",code:`var x;\nvar firstName = 'Mhamad';\nvar age = 25;\nvar isMarried = true;\nvar person = {id: 1, username: 'mhamad'};\nvar fruits = ['Apple', 'Banana', 'Blueberry'];\nfunction demo() {}\nconsole.log('x: ' + typeof x);\nconsole.log('firstName: ' + typeof firstName);\nconsole.log('age: ' + typeof age);\nconsole.log('isMarried: ' + typeof isMarried);\nconsole.log('person: ' + typeof person);\nconsole.log('fruits: ' + typeof fruits);\nconsole.log('demo: ' + typeof demo);`,explain:["typeof"]},
+op1:{title:"العوامل م1: نسخ قيمة",desc:"= assignment",code:`let a = 5;\nlet b = a;\nconsole.log('a = ' + a);\nconsole.log('b = ' + b);`,explain:["= نسخ القيمة"]},
+op2:{title:"العوامل م2: جمع +",desc:"a+b",code:`let a = 3;\nlet b = 4;\nlet c = a + b;\nconsole.log('c = ' + c);`,explain:["+ جمع"]},
+op3:{title:"العوامل م3: طرح -",desc:"a-b",code:`let a = 8;\nlet b = 3;\nlet c = a - b;\nconsole.log('c = ' + c);`,explain:["- طرح"]},
+op4:{title:"العوامل م4: Unary Plus +",desc:"+a",code:`let a = 10;\nlet b = +a;\nconsole.log('b = ' + b);\na = -10;\nb = +a;\nconsole.log('b = ' + b);`,explain:["+ يبقي الإشارة"]},
+op5:{title:"العوامل م5: Unary Minus -",desc:"-a",code:`let a = 10;\nlet b = -a;\nconsole.log('b = ' + b);\na = -10;\nb = -a;\nconsole.log('b = ' + b);`,explain:["- يعكس الإشارة"]},
+op6:{title:"العوامل م6: ضرب *",desc:"*",code:`let a = 6;\nlet b = 5;\nlet c = a * b;\nconsole.log('c = ' + c);`,explain:["* ضرب"]},
+op7:{title:"العوامل م7: قسمة /",desc:"/",code:`let a = 8;\nlet b = 5;\nlet c = a / b;\nconsole.log('c = ' + c);`,explain:["/ قسمة"]},
+op8:{title:"العوامل م8: باقي %",desc:"%",code:`let a = 8;\nlet b = 5;\nlet c = a % b;\nconsole.log('c = ' + c);`,explain:["% باقي القسمة"]},
+op9:{title:"العوامل م9: أس **",desc:"**",code:`let a = 5;\nlet b = 2;\nlet c = a ** b;\nconsole.log('c = ' + c);`,explain:["** أس"]},
+op10:{title:"العوامل م10: زيادة ++",desc:"a++",code:`let a = 5;\na++;\nconsole.log('a = ' + a);`,explain:["++ زيادة 1"]},
+op11:{title:"العوامل م11: نقصان --",desc:"a--",code:`let a = 5;\na--;\nconsole.log('a = ' + a);`,explain:["-- نقصان 1"]},
+op12:{title:"العوامل م12: مساواة ==",desc:"==",code:`let a = 10;\nlet b = 10;\nlet c = 20;\nif (a == b) {\n console.log('a and b are equal');\n}\nif (a == c) {\n console.log('a and c are equal');\n}`,explain:["== قيمة فقط"]},
+op13:{title:"العوامل م13: == vs ===",desc:"== مع نص",code:`let a = 10;\nlet b = '10';\nif (a == b) {\n console.log('a and b have only same value');\n}\nif (a === b) {\n console.log('same value and type');\n} else {\n console.log('a === b false لأن النوع مختلف');\n}`,explain:["== تتجاهل النوع","=== تدقق النوع"]},
+op14:{title:"العوامل م14: عدم مساواة!=",desc:"!=",code:`let a = 10;\nlet b = 10;\nlet c = 20;\nif (a!= b) {\n console.log('a and b are not equal');\n}\nif (a!= c) {\n console.log('a and c are not equal');\n}`,explain:["!= لا يساوي"]},
+op15:{title:"العوامل م15:!== ",desc:"!==",code:`let a = 10;\nlet b = '10';\nif (a!= b) {\n console.log('different values');\n} else {\n console.log('a!= b false');\n}\nif (a!== b) {\n console.log('different values or types');\n}`,explain:["!== قيمة أو نوع"]},
+op16:{title:"العوامل م16: أصغر <",desc:"<",code:`let a = 10;\nlet b = 5;\nif (a < b) {\n console.log('a < b');\n}\nif (b < a) {\n console.log('b < a');\n}`,explain:["< أصغر"]},
+op17:{title:"العوامل م17: >= أكبر أو يساوي",desc:">=",code:`let a = 5;\nlet b = 5;\nlet c = 10;\nif (a >= b) {\n console.log('a >= b');\n}\nif (a >= c) {\n console.log('a >= c');\n}\nif (c >= a) {\n console.log('c >= a');\n}`,explain:[">= "]},
+op18:{title:"العوامل م18: <= أصغر أو يساوي",desc:"<=",code:`let a = 5;\nlet b = 5;\nlet c = 10;\nif (a <= b) console.log('a <= b');\nif (a <= c) console.log('a <= c');\nif (c <= a) console.log('c <= a');`,explain:["<= "]},
+op19:{title:"العوامل م19: ثلاثي? :",desc:"Ternary",code:`let a = 10;\nlet b = (a == 1)? 20 : 30;\nconsole.log('b = ' + b);`,explain:["? : اختصار if"]},
+op20:{title:"العوامل م20: && و منطقي",desc:"&& true",code:`let a = 10;\nlet b = 20;\nif (a == 10 && b == 20) {\n console.log('both true');\n}`,explain:["&& كلهم true"]},
+op21:{title:"العوامل م21: && false",desc:"&& false",code:`let a = 10;\nlet b = 20;\nif (a == 10 && b == 50) {\n console.log('true');\n} else {\n console.log('الشرط الثاني خطأ');\n}`,explain:["&&"]},
+op22:{title:"العوامل م22: || أو true",desc:"||",code:`let a = 10;\nlet b = 20;\nif (a == 10 || b == 50) {\n console.log('first or second true');\n}`,explain:["|| واحد يكفي"]},
+op23:{title:"العوامل م23: || false",desc:"|| false",code:`let a = 10;\nlet b = 20;\nif (a == 50 || b == 50) {\n console.log('true');\n} else {\n console.log('الاثنين خطأ');\n}`,explain:["||"]},
+op24:{title:"العوامل م24:! ليس true",desc:"!",code:`let a = 10;\nif (!(a == 10)) {\n console.log('false');\n} else {\n console.log('!(a==10) = false');\n}`,explain:["! عكس"]},
+op25:{title:"العوامل م25:! ليس false",desc:"! false",code:`let a = 10;\nif (!(a == 50)) {\n console.log('The condition returns false');\n}`,explain:["!"]},
+op26:{title:"العوامل م26:! boolean",desc:"! boolean",code:`let isConnected = false;\nif (!isConnected) {\n console.log('You are not connected!');\n}`,explain:["! مع boolean"]},
+op27:{title:"العوامل م27: & AND ثنائي",desc:"&",code:`let a = 10;\nlet b = 75;\nlet c = a & b;\nconsole.log(a + ' & ' + b + ' = ' + c);`,explain:["& ثنائي"]},
+op28:{title:"العوامل م28: | OR ثنائي",desc:"|",code:`let a = 10;\nlet b = 75;\nlet c = a | b;\nconsole.log(a + ' | ' + b + ' = ' + c);`,explain:["| ثنائي"]},
+op29:{title:"العوامل م29: ^ XOR ثنائي",desc:"^",code:`let a = 10;\nlet b = 75;\nlet c = a ^ b;\nconsole.log(a + ' ^ ' + b + ' = ' + c);`,explain:["^ ثنائي"]},
+op30:{title:"العوامل م30: ~ NOT ثنائي",desc:"~",code:`let a = 10;\nlet b = ~a;\nconsole.log('~' + a + ' = ' + b);`,explain:["~ ثنائي"]},
+op31:{title:"العوامل م31: << إزاحة يسار",desc:"<<",code:`let a = 10;\nlet b = a << 2;\nconsole.log(a + ' << 2 = ' + b);`,explain:["<<"]},
+op32:{title:"العوامل م32: >> إزاحة يمين موجب",desc:">>",code:`let a = 9;\nlet b = a >> 2;\nconsole.log(a + ' >> 2 = ' + b);`,explain:[">>"]},
+op33:{title:"العوامل م33: >> إزاحة سالب",desc:">> negative",code:`let a = -9;\nlet b = a >> 2;\nconsole.log(a + ' >> 2 = ' + b);`,explain:[">> مع سالب"]},
+op34:{title:"العوامل م34: += ",desc:"+=",code:`let a = 10;\nlet b = 20;\na += b;\nconsole.log('a = ' + a);`,explain:["+= "]},
+op35:{title:"العوامل م35: -= ",desc:"-=",code:`let a = 10;\nlet b = 20;\na -= b;\nconsole.log('a = ' + a);`,explain:["-="]},
+op36:{title:"العوامل م36: *= ",desc:"*=",code:`let a = 10;\nlet b = 20;\na *= b;\nconsole.log('a = ' + a);`,explain:["*="]},
+op37:{title:"العوامل م37: /= ",desc:"/=",code:`let a = 100;\nlet b = 20;\na /= b;\nconsole.log('a = ' + a);`,explain:["/="]},
+op38:{title:"العوامل م38: %= ",desc:"%=",code:`let a = 10;\nlet b = 7;\na %= b;\nconsole.log('a = ' + a);`,explain:["%="]},
+op39:{title:"العوامل م39: **= ",desc:"**=",code:`let a = 2;\nlet b = 3;\na **= b;\nconsole.log('a = ' + a);`,explain:["**="]},
+op40:{title:"العوامل م40: <<= ",desc:"<<=",code:`let a = 10;\na <<= 2;\nconsole.log('a = ' + a);`,explain:["<<="]},
+op41:{title:"العوامل م41: >>= ",desc:">>=",code:`let a = 10;\na >>= 2;\nconsole.log('a = ' + a);`,explain:[">>="]},
+op42:{title:"العوامل م42: &= ",desc:"&=",code:`let a = 10;\nlet b = 75;\na &= b;\nconsole.log('a = ' + a);`,explain:["&="]},
+op43:{title:"العوامل م43: |= ",desc:"|=",code:`let a = 10;\nlet b = 75;\na |= b;\nconsole.log('a = ' + a);`,explain:["|="]},
+op44:{title:"العوامل م44: ^= ",desc:"^=",code:`let a = 10;\nlet b = 75;\na ^= b;\nconsole.log('a = ' + a);`,explain:["^="]},
+op45:{title:"العوامل م45: typeof",desc:"typeof",code:`let a = 10;\nconsole.log('Type of a is: ' + typeof a);`,explain:["typeof"]},
+op46:{title:"العوامل م46: instanceof",desc:"instanceof",code:`let myDate = new Date();\nconsole.log('Is myDate from Date? ' + (myDate instanceof Date));`,explain:["instanceof"]},
+};
+const sidebar=document.getElementById('sidebar');
+function addGroup(title, keys){
+ const t=document.createElement('div'); t.className='side-title'; t.textContent=title; sidebar.appendChild(t);
+ keys.forEach(k=>{const d=document.createElement('div'); d.className='side-item'; d.dataset.cat=k; d.textContent='• '+categories[k].title; sidebar.appendChild(d);});
 }
-</script>
+addGroup('المتغيرات - 14 مثال', Object.keys(categories).filter(k=>k.startsWith('ex')));
+addGroup('أنواع البيانات - 13 مثال', Object.keys(categories).filter(k=>k.startsWith('type')));
+addGroup('العوامل - حسابية', ['op1','op2','op3','op4','op5','op6','op7','op8','op9','op10','op11']);
+addGroup('العوامل - مقارنة', ['op12','op13','op14','op15','op16','op17','op18']);
+addGroup('العوامل - منطقية', ['op19','op20','op21','op22','op23','op24','op25','op26']);
+addGroup('العوامل - ثنائية', ['op27','op28','op29','op30','op31','op32','op33']);
+addGroup('العوامل - إسناد ونوع', ['op34','op35','op36','op37','op38','op39','op40','op41','op42','op43','op44','op45','op46']);
 
+function loadCategory(cat){
+ const d=categories[cat];
+ document.getElementById('exTitle').textContent=d.title;
+ document.getElementById('exDesc').textContent=d.desc;
+ document.getElementById('code').value=d.code;
+ document.getElementById('explainList').innerHTML=d.explain.map(t=>`<li>${t}</li>`).join('');
+ document.querySelectorAll('.side-item').forEach(el=>el.classList.toggle('active',el.dataset.cat===cat));
+ document.getElementById('result').innerHTML = '<div style="color:#8aa0a0;text-align:center;margin-top:80px">اضغط زر <b style="color:#3a8a8a">▶ تشغيل</b> لعرض النتيجة</div>';
+}
+function runCode(){
+ const code=document.getElementById('code').value;
+ const resultEl=document.getElementById('result');
+ let out='<span style="background:#e1f0e6;padding:3px 10px;border-radius:20px;font-size:11px">✔ تم التنفيذ</span><br><br>';
+ const logs=[]; const oLog=console.log; const oWrite=document.write;
+ console.log=(...a)=>logs.push(a.join(' '));
+ document.write=(...a)=>logs.push(a.join(' '));
+ try{ eval(code); logs.forEach(l=>out+=`<div>${l}</div>`); }
+ catch(e){ out+=`<div style="color:#fff;background:#e53e3e;padding:6px 10px;border-radius:6px">❌ ${e.message}</div>`; }
+ console.log=oLog; document.write=oWrite;
+ resultEl.innerHTML=out;
+}
+function copyCode(){navigator.clipboard.writeText(document.getElementById('code').value);}
+function clearResult(){document.getElementById('result').innerHTML = '<div style="color:#8aa0a0;text-align:center;margin-top:80px">اضغط زر <b style="color:#3a8a8a">▶ تشغيل</b> لعرض النتيجة</div>';}
+sidebar.addEventListener('click',e=>{const it=e.target.closest('[data-cat]'); if(it) loadCategory(it.dataset.cat);});
+loadCategory('ex1');
+</script>
 </body>
 </html>
