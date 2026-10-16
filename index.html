@@ -17,74 +17,43 @@ h1{font-size:30px;color:#2f425e;font-weight:700;margin-bottom:6px}
 .subtitle{color:#7a8ca0;font-size:15px;margin-bottom:24px}
 .card{background:#fff;border-radius:20px;padding:22px 18px;box-shadow:0 8px 30px rgba(47,66,94,0.08);text-align:right}
 .field{margin-bottom:18px}
-.label{display:flex;align-items:center;justify-content:flex-start;flex-direction:row-reverse;gap:8px;font-weight:600;color:#2f425e;font-size:14px;margin-bottom:8px}
+.label{display:flex;align-items:center;gap:8px;font-weight:600;color:#2f425e;font-size:14px;margin-bottom:8px}
 .input-wrap{position:relative}
 .input-wrap input,.input-wrap select{width:100%;height:52px;border:1.5px solid #d6dde6;border-radius:12px;padding:0 44px 0 16px;font-size:16px;color:#2f425e;background:#fff;outline:none;transition:0.2s;appearance:none}
 .input-wrap input:focus,.input-wrap select:focus{border-color:#6a9b8e;box-shadow:0 0 0 3px rgba(106,155,142,0.1)}
 .input-wrap input.error,.input-wrap select.error{border-color:#e57373;box-shadow:0 0 0 3px rgba(229,115,115,0.1)}
-.icon-right{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#9aaaba}
-.arrow{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#7a8ca0}
-.btn{width:100%;height:54px;background:#6a9b8e;border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px}
+.icon-right{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#9aaaba;pointer-events:none}
+.arrow{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#7a8ca0;pointer-events:none}
+.btn{width:100%;height:54px;background:#6a9b8e;border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;transition:0.2s}
 .btn:active{transform:scale(0.98)}
-
-/* القائمة الجديدة الجميلة - بدال ال alert السوداء */
-.modal-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(47,66,94,0.4);
-  backdrop-filter:blur(4px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-  padding:20px;
-}
+.modal-overlay{position:fixed;inset:0;background:rgba(47,66,94,0.4);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:9999;padding:20px}
 .modal-overlay.show{display:flex}
-.modal-box{
-  background:#fff;
-  border-radius:20px;
-  padding:28px 22px 20px;
-  width:100%;
-  max-width:360px;
-  text-align:center;
-  box-shadow:0 20px 60px rgba(47,66,94,0.2);
-  animation:pop 0.3s ease;
-}
+.modal-box{background:#fff;border-radius:20px;padding:28px 22px 20px;width:100%;max-width:360px;text-align:center;box-shadow:0 20px 60px rgba(47,66,94,0.2);animation:pop 0.3s ease}
 @keyframes pop{from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1}}
-.modal-icon{
-  width:60px;height:60px;
-  background:#fef0f0;
-  border-radius:50%;
-  margin:0 auto 14px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:28px;
-}
+.modal-icon{width:60px;height:60px;background:#fef0f0;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:28px}
 .modal-title{font-size:18px;font-weight:700;color:#2f425e;margin-bottom:6px}
 .modal-text{font-size:14px;color:#7a8ca0;margin-bottom:18px;line-height:1.5}
-.modal-btn{
-  width:100%;height:46px;
-  background:#6a9b8e;
-  border:none;border-radius:10px;
-  color:#fff;font-size:15px;font-weight:700;
-  cursor:pointer;
+.modal-btn{width:100%;height:46px;background:#6a9b8e;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+
+/* تحسين للجوال الصغير */
+@media (max-width:400px){
+ h1{font-size:26px}
+ .card{padding:18px 14px}
 }
 </style>
 </head>
 <body>
-
 <div class="container">
   <div class="avatar"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.5"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6c0 1-1.5 2-8 2s-8-1-8-2z"/></svg></div>
   <h1>مرحبًا بك</h1>
   <p class="subtitle">الرجاء إدخال بياناتك الشخصية للمتابعة</p>
   <div class="card">
-    <div class="field"><div class="label">الاسم</div><div class="input-wrap"><span class="icon-right">👤</span><input type="text" id="name" placeholder="أدخل اسمك الكامل"></div></div>
-    <div class="field"><div class="label">العمر</div><div class="input-wrap"><span class="icon-right">📅</span><input type="number" id="age" inputmode="numeric" placeholder="أدخل عمرك"></div></div>
-    <div class="field"><div class="label">التخصص</div><div class="input-wrap"><span class="arrow">▼</span><select id="major"><option value="" disabled selected>اختر تخصصك</option><option>طب</option><option>هندسة</option><option>حاسوب</option><option>إدارة أعمال</option><option>تربية</option><option>أخرى</option></select></div></div>
+    <div class="field"><div class="label">👤 الاسم</div><div class="input-wrap"><span class="icon-right">👤</span><input type="text" id="name" placeholder="أدخل اسمك الكامل"></div></div>
+    <div class="field"><div class="label">📅 العمر</div><div class="input-wrap"><span class="icon-right">📅</span><input type="number" id="age" inputmode="numeric" placeholder="أدخل عمرك"></div></div>
+    <div class="field"><div class="label">🎓 التخصص</div><div class="input-wrap"><span class="arrow">▼</span><select id="major"><option value="" disabled selected>اختر تخصصك</option><option>طب</option><option>هندسة</option><option>حاسوب</option><option>إدارة أعمال</option><option>تربية</option><option>أخرى</option></select></div></div>
     <button class="btn" onclick="sendData()">إرسال البيانات ✈️</button>
   </div>
 </div>
-
-<!-- القائمة الجديدة -->
 <div class="modal-overlay" id="modal" onclick="closeModal()">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-icon">⚠️</div>
@@ -93,16 +62,12 @@ h1{font-size:30px;color:#2f425e;font-weight:700;margin-bottom:6px}
     <button class="modal-btn" onclick="closeModal()">موافق</button>
   </div>
 </div>
-
 <script>
 function showModal(text){
   document.getElementById('modalText').textContent = text;
   document.getElementById('modal').classList.add('show');
 }
-function closeModal(){
-  document.getElementById('modal').classList.remove('show');
-}
-
+function closeModal(){document.getElementById('modal').classList.remove('show')}
 function sendData(){
   const nameEl=document.getElementById('name');
   const ageEl=document.getElementById('age');
@@ -110,26 +75,10 @@ function sendData(){
   const name=nameEl.value.trim();
   const age=ageEl.value.trim();
   const major=majorEl.value;
-
-  // تنظيف الاخطاء السابقة
   [nameEl,ageEl,majorEl].forEach(e=>e.classList.remove('error'));
-
-  if(!name){
-    nameEl.classList.add('error');
-    showModal('الرجاء إدخال الاسم الكامل');
-    return;
-  }
-  if(!age){
-    ageEl.classList.add('error');
-    showModal('الرجاء إدخال العمر');
-    return;
-  }
-  if(!major){
-    majorEl.classList.add('error');
-    showModal('الرجاء اختيار التخصص');
-    return;
-  }
-
+  if(!name){nameEl.classList.add('error');showModal('الرجاء إدخال الاسم الكامل');return}
+  if(!age){ageEl.classList.add('error');showModal('الرجاء إدخال العمر');return}
+  if(!major){majorEl.classList.add('error');showModal('الرجاء اختيار التخصص');return}
   localStorage.setItem('name',name);
   localStorage.setItem('age',age);
   localStorage.setItem('major',major);

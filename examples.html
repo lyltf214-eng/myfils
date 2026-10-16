@@ -77,6 +77,17 @@ body{background:#f6fbfb;color:#2f425e;min-height:100vh}
 .btn-primary{background:#3a8a8a;color:#fff;border-color:#3a8a8a;font-weight:700}
 .code-area{flex:1;background:#1e293b;color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:12px;padding:12px;border:none;outline:none;resize:none;direction:ltr;text-align:left;white-space:pre;overflow:auto}
 .result{background:#f0f6f3;flex:1;padding:12px;font-size:13px;line-height:2;overflow:auto}
+
+/* ===== تصليح الجوال ===== */
+@media (max-width: 768px){
+ .top-header{height:auto;flex-wrap:wrap;padding:10px 12px;justify-content:center}
+ .header-center{position:static !important;transform:none !important;order:3;width:100%;margin-top:8px}
+ .header-center h1{font-size:18px}
+ .main{flex-direction:column}
+ .sidebar{width:100%;max-height:260px;border-left:none;border-bottom:1px solid #dde8e6}
+ .editor-wrap{grid-template-columns:1fr}
+ .panel{min-height:280px}
+}
 </style>
 </head>
 <body>
