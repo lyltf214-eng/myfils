@@ -285,12 +285,13 @@ function inputValue(bind){
 }
 function replaceVariable(code, variable, value, kind){
  const escaped=variable.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
- const re=new RegExp("((?:let|var|const)\\s+"+escaped+"\\s*=\\s*)('[^']*'|\"[^\"]*\"|true|false|null|undefined|-?\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?)","i");
+ // يدعم التعريف العادي والمتغيرات المتعددة في سطر واحد والإسناد المباشر.
+ const re=new RegExp("(^|[,;\\n]\\s*)((?:(?:let|var|const)\\s+)?)"+escaped+"\\s*=\\s*('[^']*'|\\\"[^\\\"]*\\\"|true|false|null|undefined|-?\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?)", "im");
  let replacement;
  if(kind==='checkbox') replacement=String(value);
  else if(kind==='number') replacement=String(value===''?0:Number(value));
  else replacement="'"+String(value).replace(/\\/g,'\\\\').replace(/'/g,"\\'")+"'";
- return code.replace(re,(match,prefix)=>prefix+replacement);
+ return code.replace(re,(match,separator,declaration)=>separator+declaration+variable+" = "+replacement);
 }
 function buildCode(cat){
  let code=categories[cat].code;
