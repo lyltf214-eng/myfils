@@ -285,7 +285,7 @@ function inputValue(bind){
 }
 function replaceVariable(code, variable, value, kind){
  const escaped=variable.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
- const re=new RegExp("((?:let|var|const)\\\\s+"+escaped+"\\\\s*=\\\\s*)('[^']*'|\\\"[^\\\"]*\\\"|true|false|null|undefined|-?\\\\d+(?:\\\\.\\\\d+)?(?:e[+-]?\\\\d+)?)","i");
+ const re=new RegExp("((?:let|var|const)\\s+"+escaped+"\\s*=\\s*)('[^']*'|\"[^\"]*\"|true|false|null|undefined|-?\\d+(?:\\.\\d+)?(?:e[+-]?\\d+)?)","i");
  let replacement;
  if(kind==='checkbox') replacement=String(value);
  else if(kind==='number') replacement=String(value===''?0:Number(value));
