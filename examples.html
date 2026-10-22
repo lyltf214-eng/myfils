@@ -75,7 +75,17 @@ body{background:#f6fbfb;color:#2f425e;min-height:100vh}
 .panel-head{height:44px;padding:0 12px;display:flex;align-items:center;justify-content:space-between;background:#fafcfc;border-bottom:1px solid #eef2f2}
 .btn{border:1px solid #d6dde6;background:#fff;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer}
 .btn-primary{background:#3a8a8a;color:#fff;border-color:#3a8a8a;font-weight:700}
-.code-area{flex:1;background:#1e293b;color:#e2e8f0;font-family:'JetBrains Mono',monospace;font-size:12px;padding:12px;border:none;outline:none;resize:none;direction:ltr;text-align:left;white-space:pre;overflow:auto}
+.input-area{flex:1;background:#fff;padding:18px;display:flex;flex-direction:column;gap:14px;overflow:auto}
+.input-note{background:#eef6f1;border:1px solid #dbe8de;border-radius:9px;padding:11px;color:#527777;font-size:12px;line-height:1.8}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.field-box{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field-box label{font-size:12px;font-weight:700;color:#355d65}
+.field-box input:not([type=checkbox]),.field-box select{width:100%;border:1px solid #d5e5e0;border-radius:8px;padding:10px;background:#fbfdfc;color:#2f425e;outline:none;font-family:'Tajawal',sans-serif;font-size:13px}
+.field-box input:focus,.field-box select:focus{border-color:#3a8a8a;box-shadow:0 0 0 3px #3a8a8a20}
+.check-field{display:flex;align-items:center;gap:8px;background:#f5faf8;border:1px solid #e0ece7;border-radius:8px;padding:10px;font-size:13px}
+.check-field input{accent-color:#3a8a8a;width:16px;height:16px}
+.input-footer{display:flex;gap:8px;justify-content:flex-start;padding:10px 12px;background:#fafcfc;border-top:1px solid #eef2f2}
+@media(max-width:480px){.field-grid{grid-template-columns:1fr}.input-area{padding:12px}}
 .result{background:#f0f6f3;flex:1;padding:12px;font-size:13px;line-height:2;overflow:auto}
 
 /* ===== تصليح الجوال ===== */
@@ -110,7 +120,7 @@ body{background:#f6fbfb;color:#2f425e;min-height:100vh}
 <div class="main"><div class="sidebar" id="sidebar"></div>
 <div class="content"><h2 id="exTitle"></h2><p id="exDesc" style="font-size:12px;color:#6a8a8a"></p>
 <div class="editor-wrap">
-<div class="panel"><div class="panel-head"><h3>الكود</h3><div><button class="btn" onclick="copyCode()">نسخ</button><button class="btn btn-primary" onclick="runCode()">▶ تشغيل</button></div></div><textarea class="code-area" id="code"></textarea></div>
+<div class="panel"><div class="panel-head"><h3>بيانات المثال</h3><button class="btn" onclick="resetFields()">إعادة ضبط</button></div><div class="input-area" id="inputFields"></div><div class="input-footer"><button class="btn" onclick="copyCode()">نسخ المثال</button><button class="btn btn-primary" onclick="runCode()">▶ تطبيق المثال</button></div></div>
 <div class="panel"><div class="panel-head"><h3>النتيجة</h3><button class="btn" onclick="clearResult()">مسح</button></div><div class="result" id="result"></div></div>
 </div>
 <div style="background:#eef6f1;border:1px solid #dbe8de;border-radius:10px;padding:10px"><ul id="explainList" style="font-size:12px;padding-right:16px;line-height:1.9"></ul></div></div></div>
@@ -190,7 +200,10 @@ op44:{title:"العوامل م44: ^= ",desc:"^=",code:`let a = 10;\nlet b = 75;\
 op45:{title:"العوامل م45: typeof",desc:"typeof",code:`let a = 10;\nconsole.log('Type of a is: ' + typeof a);`,explain:["typeof"]},
 op46:{title:"العوامل م46: instanceof",desc:"instanceof",code:`let myDate = new Date();\nconsole.log('Is myDate from Date? ' + (myDate instanceof Date));`,explain:["instanceof"]},
 };
+
 const sidebar=document.getElementById('sidebar');
+let currentCategory='ex1';
+
 function addGroup(title, keys){
  const t=document.createElement('div'); t.className='side-title'; t.textContent=title; sidebar.appendChild(t);
  keys.forEach(k=>{const d=document.createElement('div'); d.className='side-item'; d.dataset.cat=k; d.textContent='• '+categories[k].title; sidebar.appendChild(d);});
@@ -203,29 +216,156 @@ addGroup('العوامل - منطقية', ['op19','op20','op21','op22','op23','o
 addGroup('العوامل - ثنائية', ['op27','op28','op29','op30','op31','op32','op33']);
 addGroup('العوامل - إسناد ونوع', ['op34','op35','op36','op37','op38','op39','op40','op41','op42','op43','op44','op45','op46']);
 
+function field(label, name, value, type='text', bind=name) {
+ return {label,name,value,type,bind};
+}
+function schemaFor(cat){
+ const n=(label,name,value,bind=name)=>field(label,name,value,'number',bind);
+ const t=(label,name,value,bind=name)=>field(label,name,value,'text',bind);
+ const c=(label,name,value,bind=name)=>field(label,name,value,'checkbox',bind);
+ if(cat==='ex1'||cat==='ex14') return [t('اسم الموقع','website','Harmash.com','website')];
+ if(/^ex(2|3|4|5|6|7|8|9|10|11|12)$/.test(cat)) return [t('الاسم','name','Mhamad'),n('العمر','age',25),c('هل يعمل؟','isWorking',true)];
+ if(cat==='ex13') return [t('قيمة الموقع (اتركها فارغة لعرض undefined)','website','','website')];
+ if(cat==='type1') return [n('قيمة x','x',3),n('قيمة y','y',5)];
+ if(cat==='type2') return [n('العدد العشري الأول','x',10.5),n('العدد العشري الثاني','y',2.44)];
+ if(cat==='type3') return [n('القيمة الأولى','x',123400000),n('القيمة الثانية','y',0.01234)];
+ if(cat==='type4') return [n('المقسوم','x',5),n('المقسوم عليه','y',2)];
+ if(cat==='type5') return [t('الموقع الأول','web1','Harmash.com'),t('الموقع الثاني','web2','FreeSkillAcademy.com')];
+ if(cat==='type6') return [t('الاسم الأول','firstName','Mhamad'),t('اسم العائلة','lastName','Harmush')];
+ if(cat==='type7') return [c('هل يعمل؟','isWorking',true),c('هل هو متزوج؟','isMarried',false)];
+ if(cat==='type8') return [n('رقم المعرّف','id',1024),t('اسم المستخدم','username','mhamad'),c('هل يعمل؟','isWorking',true)];
+ if(cat==='type9') return [t('الفاكهة الأولى','fruit1','Apple'),t('الفاكهة الثانية','fruit2','Banana'),t('الفاكهة الثالثة','fruit3','Blueberry')];
+ if(cat==='type10') return [t('الرسالة','message','Hello World!')];
+ if(cat==='type11') return [t('قيمة الموقع (اتركها فارغة لعرض undefined)','website','','website')];
+ if(cat==='type12') return [t('نوع السيارة الأولى','car1','BMW'),t('نوع السيارة الثانية','car2','Toyota'),t('نوع السيارة الثالثة','car3','Ferrari')];
+ if(cat==='type13') return [t('الاسم','firstName','Mhamad'),n('العمر','age',25),c('هل هو متزوج؟','isMarried',true)];
+ if(cat==='op13'||cat==='op15') return [n('قيمة a','a',10),t('قيمة b (نص)','b','10')];
+ if(cat==='op26') return [c('هل الاتصال متاح؟','isConnected',false)];
+ if(cat==='op30'||cat==='op31'||cat==='op32'||cat==='op33'||cat==='op40'||cat==='op41') return [n('قيمة a','a',cat==='op33'?-9:10),n('قيمة الإزاحة','shift',2,'shift')];
+ if(cat==='op19') return [n('قيمة a','a',10)];
+ if(cat==='op4'||cat==='op5'||cat==='op10'||cat==='op11'||cat==='op24'||cat==='op25'||cat==='op45') return [n('قيمة a','a',cat==='op24'?10:cat==='op25'?10:cat==='op10'||cat==='op11'?5:10)];
+ if(cat==='op46') return [];
+ if(cat==='op1') return [n('قيمة a','a',5)];
+ if(cat==='op2'||cat==='op3'||cat==='op6'||cat==='op7'||cat==='op8'||cat==='op9'||cat==='op12'||cat==='op14'||cat==='op16'||cat==='op17'||cat==='op18'||cat==='op20'||cat==='op21'||cat==='op22'||cat==='op23'||cat==='op27'||cat==='op28'||cat==='op29'||cat==='op34'||cat==='op35'||cat==='op36'||cat==='op37'||cat==='op38'||cat==='op39'||cat==='op42'||cat==='op43'||cat==='op44') {
+   let av=10,bv=20;
+   if(cat==='op2'){av=3;bv=4}
+   if(cat==='op3'){av=8;bv=3}
+   if(cat==='op6'){av=6;bv=5}
+   if(cat==='op7'||cat==='op8'){av=8;bv=5}
+   if(cat==='op9'){av=5;bv=2}
+   if(cat==='op12'||cat==='op14'||cat==='op16'){av=10;bv=5}
+   if(cat==='op17'||cat==='op18'){av=5;bv=5}
+   if(cat==='op27'||cat==='op28'||cat==='op29'||cat==='op42'||cat==='op43'||cat==='op44'){av=10;bv=75}
+   if(cat==='op34'||cat==='op35'||cat==='op36'){av=10;bv=20}
+   if(cat==='op37'){av=100;bv=20}
+   if(cat==='op38'){av=10;bv=7}
+   if(cat==='op39'){av=2;bv=3}
+   if(cat==='op20'||cat==='op21'||cat==='op22'||cat==='op23'){av=10;bv=20}
+   return [n('قيمة a','a',av),n('قيمة b','b',bv)];
+ }
+ return [n('قيمة a','a',10),n('قيمة b','b',20)];
+}
+function renderFields(cat){
+ const host=document.getElementById('inputFields');
+ const fields=schemaFor(cat);
+ if(!fields.length){
+  host.innerHTML='<div class="input-note">هذا المثال ينشئ تاريخًا تلقائيًا، لذلك لا يحتاج إلى إدخال قيم. اضغط «تطبيق المثال» لرؤية النتيجة.</div>';
+  return;
+ }
+ host.innerHTML='<div class="input-note">أدخل القيم التي تريد تجربتها، ثم اضغط «تطبيق المثال» لعرض النتيجة. تم الحفاظ على شرح المثال الأصلي.</div><div class="field-grid">'+fields.map(f=>{
+  if(f.type==='checkbox') return `<div class="field-box"><label>${f.label}</label><label class="check-field"><input type="checkbox" data-bind="${f.bind}" ${f.value?'checked':''}> تفعيل / صحيح</label></div>`;
+  return `<div class="field-box"><label for="field-${f.name}">${f.label}</label><input id="field-${f.name}" data-bind="${f.bind}" type="${f.type==='number'?'number':'text'}" ${f.type==='number'?'step="any"':''} value="${String(f.value).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"></div>`;
+ }).join('')+'</div>';
+}
+function inputValue(bind){
+ const el=document.querySelector(`#inputFields [data-bind="${bind}"]`);
+ if(!el) return undefined;
+ if(el.type==='checkbox') return el.checked;
+ return el.value;
+}
+function replaceVariable(code, variable, value, kind){
+ const escaped=variable.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+ const re=new RegExp("((?:let|var|const)\\\\s+"+escaped+"\\\\s*=\\\\s*)('[^']*'|\\\"[^\\\"]*\\\"|true|false|null|undefined|-?\\\\d+(?:\\\\.\\\\d+)?(?:e[+-]?\\\\d+)?)","i");
+ let replacement;
+ if(kind==='checkbox') replacement=String(value);
+ else if(kind==='number') replacement=String(value===''?0:Number(value));
+ else replacement="'"+String(value).replace(/\\/g,'\\\\').replace(/'/g,"\\'")+"'";
+ return code.replace(re,(match,prefix)=>prefix+replacement);
+}
+function buildCode(cat){
+ let code=categories[cat].code;
+ const fields=schemaFor(cat);
+ fields.forEach(f=>{
+  let value=inputValue(f.bind);
+  if(value===undefined) return;
+  if((cat==='ex13'||cat==='type11') && f.bind==='website' && value==='') return;
+  if(f.bind==='shift'){
+   code=code.replace(/(<<|>>)\s*2/g,(_,op)=>op+' '+String(Number(value)||0));
+   code=code.replace(/(<<=|>>=)\s*2/g,(_,op)=>op+' '+String(Number(value)||0));
+   return;
+  }
+  if(f.bind==='website' && (cat==='ex13'||cat==='type11')){
+   if(String(value).trim()) code=code.replace(/var\s+website\s*;/,"var website = '"+String(value).replace(/'/g,"\\'")+"';");
+   return;
+  }
+  if(f.bind==='fruit1'){code=code.replace("'Apple'","'"+String(value).replace(/'/g,"\\'")+"'");return;}
+  if(f.bind==='fruit2'){code=code.replace("'Banana'","'"+String(value).replace(/'/g,"\\'")+"'");return;}
+  if(f.bind==='fruit3'){code=code.replace("'Blueberry'","'"+String(value).replace(/'/g,"\\'")+"'");return;}
+  if(f.bind==='car1'){code=code.replace("'BMW'","'"+String(value).replace(/'/g,"\\'")+"'");return;}
+  if(f.bind==='car2'){code=code.replace("'Toyota'","'"+String(value).replace(/'/g,"\\'")+"'");return;}
+  if(f.bind==='car3'){code=code.replace("'Ferrari'","'"+String(value).replace(/'/g,"\\'")+"'");return;}
+  if(f.bind==='message'){code=code.replace("'Hello World!'","'"+String(value).replace(/'/g,"\\'")+"'");return;}
+  if(f.bind==='isConnected'){code=code.replace(/(let\s+isConnected\s*=\s*)(true|false)/,(_,p)=>p+String(value));return;}
+  if(f.bind==='isWorking' && cat==='type8'){code=code.replace(/(isWorking:\s*)(true|false)/,(_,p)=>p+String(value));return;}
+  if(f.bind==='isMarried' && cat==='type13'){code=code.replace(/(var\s+isMarried\s*=\s*)(true|false)/,(_,p)=>p+String(value));return;}
+  if(['isWorking','isMarried'].includes(f.bind) && cat.startsWith('ex')) {
+   code=replaceVariable(code,f.bind,value,'checkbox'); return;
+  }
+  if(f.bind==='id' && cat==='type8'){code=code.replace(/(id:\s*)\d+/,(_,p)=>p+String(Number(value)||0));return;}
+  if(f.bind==='username' && cat==='type8'){code=code.replace(/(username:\s*)'[^']*'/,(_,p)=>p+"'"+String(value).replace(/'/g,"\\'")+"'");return;}
+  code=replaceVariable(code,f.bind,value,f.type);
+ });
+ if(cat==='op30') code=code.replace(/let b = ~a;/,'let b = ~a;');
+ if(cat==='op10') code=code.replace(/a\+\+;/,'a++;');
+ if(cat==='op11') code=code.replace(/a--;/,'a--;');
+ return code;
+}
 function loadCategory(cat){
+ currentCategory=cat;
  const d=categories[cat];
  document.getElementById('exTitle').textContent=d.title;
  document.getElementById('exDesc').textContent=d.desc;
- document.getElementById('code').value=d.code;
  document.getElementById('explainList').innerHTML=d.explain.map(t=>`<li>${t}</li>`).join('');
+ renderFields(cat);
  document.querySelectorAll('.side-item').forEach(el=>el.classList.toggle('active',el.dataset.cat===cat));
- document.getElementById('result').innerHTML = '<div style="color:#8aa0a0;text-align:center;margin-top:80px">اضغط زر <b style="color:#3a8a8a">▶ تشغيل</b> لعرض النتيجة</div>';
+ clearResult();
 }
 function runCode(){
- const code=document.getElementById('code').value;
+ const code=buildCode(currentCategory);
  const resultEl=document.getElementById('result');
- let out='<span style="background:#e1f0e6;padding:3px 10px;border-radius:20px;font-size:11px">✔ تم التنفيذ</span><br><br>';
- const logs=[]; const oLog=console.log; const oWrite=document.write;
- console.log=(...a)=>logs.push(a.join(' '));
- document.write=(...a)=>logs.push(a.join(' '));
- try{ eval(code); logs.forEach(l=>out+=`<div>${l}</div>`); }
- catch(e){ out+=`<div style="color:#fff;background:#e53e3e;padding:6px 10px;border-radius:6px">❌ ${e.message}</div>`; }
- console.log=oLog; document.write=oWrite;
+ let out='<span style="background:#e1f0e6;padding:3px 10px;border-radius:20px;font-size:11px">✔ تم تطبيق المثال</span><br><br>';
+ const logs=[]; const originalLog=console.log; const originalWrite=document.write;
+ console.log=(...args)=>logs.push(args.map(v=>typeof v==='object'&&v!==null?JSON.stringify(v):String(v)).join(' '));
+ document.write=(...args)=>logs.push(args.join(' '));
+ try{
+  const safeCode=code.replace(/^\s*website\s*=/m,'var website =');
+  (new Function('console','document',safeCode))(console,{write:(...args)=>logs.push(args.join(' '))});
+  if(logs.length) logs.forEach(line=>out+=`<div>${escapeHtml(line)}</div>`);
+  else out+='<div>تم التنفيذ دون إخراج نصي.</div>';
+ }catch(e){out+=`<div style="color:#fff;background:#e53e3e;padding:6px 10px;border-radius:6px">❌ ${escapeHtml(e.message)}</div>`;}
+ finally{console.log=originalLog;document.write=originalWrite;}
  resultEl.innerHTML=out;
 }
-function copyCode(){navigator.clipboard.writeText(document.getElementById('code').value);}
-function clearResult(){document.getElementById('result').innerHTML = '<div style="color:#8aa0a0;text-align:center;margin-top:80px">اضغط زر <b style="color:#3a8a8a">▶ تشغيل</b> لعرض النتيجة</div>';}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function copyCode(){
+ const code=buildCode(currentCategory);
+ if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(()=>showCopyMessage());
+ else {const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();showCopyMessage();}
+}
+function showCopyMessage(){const el=document.getElementById('result');el.innerHTML='<div style="color:#2f7a61">تم نسخ كود المثال إلى الحافظة.</div>';}
+function clearResult(){document.getElementById('result').innerHTML='<div style="color:#8aa0a0;text-align:center;margin-top:80px">غيّر القيم ثم اضغط <b style="color:#3a8a8a">▶ تطبيق المثال</b> لعرض النتيجة</div>';}
+function resetFields(){renderFields(currentCategory);clearResult();}
+
 sidebar.addEventListener('click',e=>{const it=e.target.closest('[data-cat]'); if(it) loadCategory(it.dataset.cat);});
 loadCategory('ex1');
 </script>
